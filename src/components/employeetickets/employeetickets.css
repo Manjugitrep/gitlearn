@@ -1,0 +1,32 @@
+.update-ticket-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+  }
+  
+  .update-ticket-form label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  
+  .update-ticket-form select {
+    width: 200px;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .update-buttons button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .update-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
