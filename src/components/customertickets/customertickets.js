@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import CustomerMenu from '../customermenu/customermenu';
 import axios from 'axios';
 import { withRouter } from '../../withRouter';
+import './customerticket.css';
 
 const CustomerTickets = () => {
-  const [customer, setCustomer] = useState({
-    customerId:0
-  });
-  
   const [tickets, setTickets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 7;
+  const recordsPerPage = 5;
   // useEffect(() => {
   //   const cid = localStorage.getItem('cid');
   //   axios.get(`http://localhost:9829/ticket/searchTicketByCusId/${cid}`)
@@ -51,8 +48,10 @@ const CustomerTickets = () => {
 
   return (
     <div className="component-customerticket">
+      <div className="customer-menu">
       <CustomerMenu />
-      <table border="2" align="center">
+    </div>
+      {/* <table border="2" align="center">
         <thead>
           <tr>
             <th>Customer Id</th>
@@ -68,7 +67,7 @@ const CustomerTickets = () => {
         <tbody>
           {currentTickets.map((ticket) => (
             <tr key={ticket.ticketId}>
-              <td>{ticket.customer.customerId}</td>
+              <td>{ticket.customerId}</td>
               <td>{ticket.ticketId}</td>
               <td>{ticket.employeeId}</td>
               <td>{ticket.ticketType}</td>
@@ -79,12 +78,39 @@ const CustomerTickets = () => {
             </tr>
           ))}
         </tbody>
-      </table>
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      </table> */}
+      {/* ------------------------------------------------------------ */}
+      <h2 className="ticket-header">Your Tickets</h2>
+
+<div className="ticket-cards-container">
+  {currentTickets.length > 0 ? (
+    currentTickets.map((ticket) => (
+      <div className="ticket-card" key={ticket.ticketId}>
+        <h3>Ticket ID: {ticket.ticketId}</h3>
+        <p><strong>Type:</strong> {ticket.ticketType}</p>
+        <p><strong>Description:</strong> {ticket.ticketDescription}</p>
+        <p><strong>Raised On:</strong> {ticket.ticketRaiseDate}</p>
+        <p><strong>Status:</strong> <span className={`status ${ticket.ticketStatus.toLowerCase()}`}>{ticket.ticketStatus}</span></p>
+        <p><strong>Priority:</strong> <span className={`priority ${ticket.ticketPriority.toLowerCase()}`}>{ticket.ticketPriority}</span></p>
+      </div>
+    ))
+  ) : (
+    <p className="no-tickets-message">No tickets found.</p>
+  )}
+</div>
+
+{/* Pagination Controls */}
+<div className="pagination">
+  <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+  <span>Page {currentPage} of {totalPages}</span>
+  <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+</div>
+      {/* ------------------------------------------------------------ */}
+      {/* <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
           <span style={{ margin: '0 15px' }}>Page {currentPage} of {totalPages}</span>
           <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
-      </div>
+      </div> */}
     </div>
   );
 };

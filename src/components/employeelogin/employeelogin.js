@@ -103,9 +103,9 @@
 // export default withRouter(EmployeeLogin)
 
 import React, { useState } from 'react';
-import { useNavigate ,Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
-// import './EmployeeLogin.css';
+ import './employeelogin.css';
 
 const EmployeeLogin = () => {
   const [formData, setFormData] = useState({
@@ -115,7 +115,6 @@ const EmployeeLogin = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -146,8 +145,7 @@ const EmployeeLogin = () => {
     setLoading(true);
     try {
       await AuthService.login(formData.email, formData.password, formData.designation);
-      setLoginFailed(false);
- 
+      
       // Navigate based on role
       switch (formData.designation) {
         case 'Admin':
@@ -163,7 +161,6 @@ const EmployeeLogin = () => {
           setError('Invalid designation');
       }
     } catch (error) {
-      setLoginFailed(true);
       setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
@@ -178,7 +175,7 @@ const EmployeeLogin = () => {
         {error && <div className="error-message">{error}</div>}
   
         <form onSubmit={handleSubmit}>
-          <table className="login-table" border='2'>
+          <table className="login-table" >
             <tbody>
               <tr>
                 <td><label>Email:</label></td>
@@ -242,12 +239,6 @@ const EmployeeLogin = () => {
             </tbody>
           </table>
         </form>
-        {/* Conditionally render the Forgot Password link only when login fails */}
-        {loginFailed && (
-          <div>
-            <Link to="/forgotpassword">Forgot Password?</Link>
-          </div>
-        )}
       </div>
     </div>
   );

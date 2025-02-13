@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import AuthCustomer from "../../services/AuthCustomer";
-import axios from "axios"; 
-
+ 
 const RegisterCustomer = () => {
     const [data, setData] = useState({
         customerFirstname: '',
@@ -18,7 +17,7 @@ const RegisterCustomer = () => {
         customerEmail: '',
         customerPhno: ''
     });
-
+ 
     const [errors, setErrors] = useState({
         customerFirstname: '',
         customerLastname: '',
@@ -33,44 +32,21 @@ const RegisterCustomer = () => {
         customerEmail: '',
         customerPhno: ''
     });
-
-    const [location, setLocation] = useState({ latitude: null, longitude: null });
-    const [errorMessage, setErrorMessage] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [passwordMatch, setPasswordMatch] = useState(false);
-
+ 
+    const [passwordMatch, setPasswordMatch] = useState(false);  // State to handle password match
+ 
     const navigate = useNavigate();
-
+ 
     const handleChange = (event) => {
         setData({
             ...data, [event.target.name]: event.target.value
         });
     };
-
-    // Convert Address and Pincode to Latitude and Longitude
-    const convertAddressToCoordinates = async () => {
-        try {
-            const fullAddress = `${data.customerAddress}, ${data.customerPincode}`;
-            const response = await axios.get(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}`
-            );
-     
-            if (response.data.length > 0) {
-                const { lat, lon } = response.data[0];
-                setLocation({ latitude: parseFloat(lat), longitude: parseFloat(lon) });
-                setErrorMessage('');
-            } else {
-                setErrorMessage('Invalid address or pincode');
-            }
-        } catch (error) {
-            setErrorMessage('Error converting address to coordinates');
-        }
-    };
-
+ 
     const validate = () => {
         let fieldErrors = {};
         let isValid = true;
-
+ 
         // Check for empty fields
         for (const field in data) {
             if (data[field] === '') {
@@ -78,87 +54,87 @@ const RegisterCustomer = () => {
                 isValid = false;
             }
         }
-
+ 
         // Validate First Name and Last Name (min 4 characters)
         if (data.customerFirstname.length < 4) {
             fieldErrors.customerFirstname = 'First Name must be at least 4 characters.';
             isValid = false;
         }
-
+ 
         if (data.customerLastname.length < 4) {
             fieldErrors.customerLastname = 'Last Name must be at least 4 characters.';
             isValid = false;
         }
-
+ 
         // Validate Username (at least 4 characters)
         if (data.customerUsername.length < 4) {
             fieldErrors.customerUsername = 'Username must be at least 4 characters.';
             isValid = false;
         }
-
+ 
         // Validate Password (at least one uppercase, one special character, and one number)
         const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]+$/;
         if (!passwordRegex.test(data.customerPassword)) {
             fieldErrors.customerPassword = 'Password must contain at least one uppercase letter, one special character, and one number.';
             isValid = false;
         }
-
+ 
         // Validate Confirm Password
         if (data.customerPassword !== data.confirmPassword) {
             fieldErrors.confirmPassword = 'Password and Confirm Password do not match.';
-            setPasswordMatch(false);
+            setPasswordMatch(false); // Update password match state
             isValid = false;
         } else {
-            setPasswordMatch(true);
+            setPasswordMatch(true); // Passwords match
         }
-
+ 
         // Validate Email (contains @ and ends with @gmail.com or @yahoo.com)
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com)$/;
         if (!emailRegex.test(data.customerEmail) || !data.customerEmail.endsWith('@gmail.com') && !data.customerEmail.endsWith('@yahoo.com')) {
             fieldErrors.customerEmail = 'Please enter a valid email with @gmail.com or @yahoo.com.';
             isValid = false;
         }
-
+ 
         // Validate Phone Number (exactly 10 digits, first digit between 6-9)
         const phoneRegex = /^[6-9][0-9]{9}$/;
         if (!phoneRegex.test(data.customerPhno)) {
             fieldErrors.customerPhno = 'Phone number should be 10 digits and start with a digit between 6 and 9.';
             isValid = false;
         }
-
+ 
         // Validate City and State (make sure they are selected)
         if (data.customerCity === '') {
             fieldErrors.customerCity = 'Please select a city.';
             isValid = false;
         }
-
+ 
         if (data.customerState === '') {
             fieldErrors.customerState = 'Please select a state.';
             isValid = false;
         }
-
-        setErrors(fieldErrors);
-
+ 
+        setErrors(fieldErrors);  // Set all errors at once
+ 
         if (isValid) {
             show();  // Proceed to register the customer if everything is valid
         }
     };
-
+ 
     const show = () => {
         AuthCustomer.register(
-            data.customerFirstname, data.customerLastname, data.customerAddress, data.customerPincode, data.customerState, data.customerCity,
+            data.customerFirstname, data.customerLastname, data.customerAddress, data.customerPincode, data.customerState, data.customerCity, 
             data.customerGender, data.customerUsername, data.customerPassword, data.customerEmail, data.customerPhno
         )
         .then(response => {
             alert(response.data);
-            navigate("/loginCustomer");
+            navigate("/customerMenu");
         })
         .catch(error => {
             console.error("Error while Register", error);
             alert("Error in registration.");
         });
     };
-
+ 
     return (
         <div className="form-container">
             <h2 className="form-title">Register</h2>
@@ -174,7 +150,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerFirstname && <p className="error-message" style={{ color: 'red' }}>{errors.customerFirstname}</p>}
-
+ 
                 {/* Last Name */}
                 <label className="form-label">Last Name:</label>
                 <input
@@ -198,7 +174,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerAddress && <p className="error-message" style={{ color: 'red' }}>{errors.customerAddress}</p>}
-
+ 
 
                 {/* Pincode */}
                 <label className="form-label">Pincode:</label>
@@ -211,7 +187,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerPincode && <p className="error-message" style={{ color: 'red' }}>{errors.customerPincode}</p>}
-
+ 
                 {/* State */}
                 <label className="form-label">State:</label>
                 <select
@@ -229,7 +205,7 @@ const RegisterCustomer = () => {
                 </select>
                 <br />
                 {errors.customerState && <p className="error-message" style={{ color: 'red' }}>{errors.customerState}</p>}
-
+ 
                 {/* City */}
                 <label className="form-label">City:</label>
                 <select
@@ -247,7 +223,7 @@ const RegisterCustomer = () => {
                 </select>
                 <br />
                 {errors.customerCity && <p className="error-message" style={{ color: 'red' }}>{errors.customerCity}</p>}
-
+ 
                 {/* Gender */}
                 <label className="form-label">Gender:</label>
                 <select
@@ -262,7 +238,7 @@ const RegisterCustomer = () => {
                 </select>
                 <br />
                 {errors.customerGender && <p className="error-message" style={{ color: 'red' }}>{errors.customerGender}</p>}
-
+ 
                 {/* Username */}
                 <label className="form-label">Username:</label>
                 <input
@@ -274,7 +250,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerUsername && <p className="error-message" style={{ color: 'red' }}>{errors.customerUsername}</p>}
-
+ 
                 {/* Password */}
                 <label className="form-label">Password:</label>
                 <input
@@ -286,7 +262,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerPassword && <p className="error-message" style={{ color: 'red' }}>{errors.customerPassword}</p>}
-
+ 
                 {/* Confirm Password */}
                 <label className="form-label">Confirm Password:</label>
                 <input
@@ -297,12 +273,14 @@ const RegisterCustomer = () => {
                     onChange={handleChange}
                 />
                 <br />
+                {/* Show Green Tick if Password Matches */}
+                {passwordMatch && <span style={{ color: 'green', fontSize: '20px' }}>✅</span>}
                 {errors.confirmPassword && <p className="error-message" style={{ color: 'red' }}>{errors.confirmPassword}</p>}
-
+ 
                 {/* Email */}
                 <label className="form-label">Email:</label>
                 <input
-                    type="text"
+                    type="email"
                     name="customerEmail"
                     className="form-input"
                     value={data.customerEmail}
@@ -310,7 +288,7 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerEmail && <p className="error-message" style={{ color: 'red' }}>{errors.customerEmail}</p>}
-
+ 
                 {/* Phone Number */}
                 <label className="form-label">Phone Number:</label>
                 <input
@@ -322,21 +300,17 @@ const RegisterCustomer = () => {
                 />
                 <br />
                 {errors.customerPhno && <p className="error-message" style={{ color: 'red' }}>{errors.customerPhno}</p>}
-
-                {/* Register Button */}
-                <button
+ 
+                {/* Submit Button */}
+                <input
                     type="button"
-                    className="form-btn"
-                    onClick={() => {
-                        convertAddressToCoordinates(); // Call function to convert address to coordinates
-                        validate();
-                    }}
-                >
-                    Register
-                </button>
+                    className="submit-button"
+                    value="Register"
+                    onClick={validate}
+                />
             </form>
         </div>
     );
 };
-
+ 
 export default RegisterCustomer;

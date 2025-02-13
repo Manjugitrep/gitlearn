@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 250px; /* Adjust based on your sidebar width */
+    padding: 20px;
+    background: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .profile-header {
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h2 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .profile-details {
+    display: flex;
+    gap: 40px; /* Space between the two columns */
+    align-items: flex-start;
+  }
+  
+  /* Profile image section */
+  .profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .profile-image {
+    width: 220px; /* Increased image size */
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .profile-text {
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Ensure label and value appear on the SAME LINE */
+  .profile-info-col,
+  .other-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .detail-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px; /* Space between label and value */
+    flex-wrap: nowrap; /* Prevents label and value from breaking into separate lines */
+    white-space: nowrap; /* Prevents text from wrapping */
+    width: 100%;
+  }
+  
+  /* Label styles */
+  .detail-label {
+    font-weight: bold;
+    color: #555;
+    min-width: 180px; /* Ensures labels have the same width */
+    text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
+    display: inline-block;
+  }
+  
+  /* Value styles */
+  .detail-value {
+    color: #333;
+    display: inline-block;
+    white-space: nowrap; /* Ensures value remains on the same line */
+  }
+  
+  /* Fix for making sure labels and values don’t break lines */
+  .detail-box p {
+    margin: 0; /* Remove unwanted space */
+    padding: 0;
+    display: inline;
+  }
+  
+  /* Loading message */
+  .loading-message {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  /* Button styles */
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .update-button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .update-button:hover {
+    background: #218838;
+  }
+  

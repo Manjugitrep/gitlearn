@@ -2,29 +2,47 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import LoginCustomer from "../logincustomer/logincustomer";
 import RegisterCustomer from "../registercustomer/registercustomer";
- 
+
+import '../employeelogin/employeelogin.css';
+
+// Add custom CSS for styling 
+//./components/employeelogin/employeelogin.css
 const CustomerLogin = () => {
-    const [view, setView] = useState(''); // State to manage which view to display
+    const [view, setView] = useState('login'); // State to manage which view to display
+    const navigate = useNavigate();
  
-    const customerLogin = () => {
-        setView('login'); // Set the view to 'login'
+    const handleLogin = () => {
+        setView('login'); // Switch to login view
     }
  
-    const signUp = () => {
-        setView('signup'); // Set the view to 'signup'
+    const handleSignUp = () => {
+        setView('signup'); // Switch to signup view
     }
  
     return (
-        <div className="form-container">
-            <form className="form-label">
-                <input type="button" className="submit-button" value="Login" onClick={customerLogin} />
-                <input type="button" className="submit-button" value="SignUp" onClick={signUp} />
-            </form>
+        <div className="customer-login-container">
+            {/* <div className="login-header">
+                <h2>Customer Login</h2>
+            </div> */}
  
-            {/* Conditionally render the components based on the view state */}
-            {view === 'login' && <LoginCustomer />} {/* Render Logincus component */}
-            {view === 'signup' && <RegisterCustomer />} {/* Render Customerresgister component */}
+            <div className="form-container">
+                {/* Conditionally render the login or signup form based on the state */}
+                {view === 'login' && <LoginCustomer />}
+                {view === 'signup' && <RegisterCustomer />}
+               
+                <div className="login-footer">
+                    {/* If in signup view, show a link to switch to login */}
+                    {view === 'signup' && (
+                        <p>Already have an account? <span onClick={handleLogin}>Login here</span></p>
+                    )}
+                    {/* If in login view, show a link to switch to signup */}
+                    {view === 'login' && (
+                        <p>Don't have an account? <span onClick={handleSignUp}>Sign Up here</span></p>
+                    )}
+                </div>
+            </div>
         </div>
-    )
+    );
 }
+ 
 export default CustomerLogin;

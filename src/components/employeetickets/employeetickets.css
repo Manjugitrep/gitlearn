@@ -1,32 +1,121 @@
+.component-employeeticket {
+  margin-left: 250px; /* Adjust for the width of the sidebar */
+  padding: 20px;
+  overflow-y: auto;
+}
+
+table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgb(130, 145, 173);
+}
+
+table th, table td {
+  padding: 12px 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #004aad;
+  color: white;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: rgb(130, 145, 173);
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #004aad;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 .update-ticket-form {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-  }
-  
-  .update-ticket-form label {
-    display: block;
-    margin: 10px 0 5px;
-  }
-  
-  .update-ticket-form select {
-    width: 200px;
-    padding: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .update-buttons button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .update-buttons button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: none;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(123, 123, 238);
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  z-index: 1000;
+  width: 50%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #004aad;
+}
+
+.modal label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.modal select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #3636f1;
+}
+
+.modal .update-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal button {
+  background-color: #004aad;
+  color: white;
+}
+
+.modal button:hover {
+  background-color: #00358a;
+}
+
+.modal .close-btn {
+  background-color: red;
+}
+
+.modal .close-btn:hover {
+  background-color: darkred;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}

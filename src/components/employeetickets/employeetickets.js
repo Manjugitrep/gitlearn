@@ -37,6 +37,7 @@ const EmployeeTickets = () => {
       alert('Ticket updated successfully!');
       // Fetch updated ticket data after the update
       setTickets(tickets.map(ticket => ticket.ticketId === updatedTicket.ticketId ? updatedTicket : ticket));
+      setSelectedTicket(null);
     }
   };
 
@@ -62,6 +63,7 @@ const EmployeeTickets = () => {
       // Update state
       setTickets(tickets.map(ticket => ticket.ticketId === updatedTicket.ticketId ? updatedTicket : ticket));
       alert("Ticket closed and resolved successfully!");
+      setSelectedTicket(null);
     }
   };
 
@@ -103,7 +105,7 @@ const EmployeeTickets = () => {
         <tbody>
           {currentTickets.map((ticket) => (
             <tr key={ticket.ticketId}>
-              <td>{ticket.customerId}</td>
+              <td>{ticket.customer.customerId}</td>
               <td>{ticket.ticketId}</td>
               <td>{ticket.employeeId}</td>
               <td>{ticket.ticketType}</td>
@@ -112,7 +114,13 @@ const EmployeeTickets = () => {
               <td>{ticket.ticketStatus}</td>
               <td>{ticket.ticketPriority}</td>
               <td>
-                <button onClick={() => setSelectedTicket(ticket)}>Update</button>
+                {/* <button onClick={() => setSelectedTicket(ticket)}>Update</button> */}
+                <button onClick={() => {
+                  setSelectedTicket(ticket);
+                  // setTicketType(ticket.ticketType);
+                  // setTicketStatus(ticket.ticketStatus);
+                  // setTicketPriority(ticket.ticketPriority);
+                }}>Update</button>
               </td>
             </tr>
           ))}
@@ -126,7 +134,7 @@ const EmployeeTickets = () => {
       </div>
 
       {/* Update Ticket Form - Shown when a ticket is selected */}
-      {selectedTicket && (
+      {/* {selectedTicket && (
         <div className="update-ticket-form">
           <h3>Update Ticket: {selectedTicket.ticketId}</h3>
           <label>Ticket Type</label>
@@ -161,6 +169,32 @@ const EmployeeTickets = () => {
             <button onClick={closeTicket}>Close Ticket</button>
           </div>
         </div>
+      )} */}
+      {selectedTicket && (
+        <>
+          <div className="overlay" onClick={() => setSelectedTicket(null)}></div>
+          <div className="modal">
+            <h3>Update Ticket: {selectedTicket.ticketId}</h3>
+            <label>Ticket Type</label>
+            <select onChange={(e) => setTicketType(e.target.value)} value={ticketType}>
+            <option value="Service">Service</option>
+            <option value="Technical">Technical</option>
+            <option value="Billing">Billing</option>
+            <option value="Complaint">Complaint</option>
+            <option value="Feedback">Feedback</option>
+            <option value="Outage">Outage</option>
+            </select>
+            <label>Ticket Status</label>
+          <select onChange={(e) => setTicketStatus(e.target.value)} value={ticketStatus}>
+            <option value="">Select Status</option>
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+            <option value="Pending">Pending</option>
+          </select>
+            <button onClick={updateTicket}>Update</button>
+            <button className="close-btn" onClick={() => setSelectedTicket(null)}>Close</button>
+          </div>
+        </>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ const Chatbot = () => {
   const [showTicketForm, setShowTicketForm] = useState(false);
   const [botTyping, setBotTyping] = useState(false);
   const [showChat, setShowChat] = useState(false);
-
+  
   const [ticket, setTicket] = useState({
     employeeId: "",
     ticketType: "",
@@ -82,23 +82,16 @@ const Chatbot = () => {
   };
 
   const submitTicket = async () => {
-    if (!ticket.ticketType || !ticket.ticketDescription) {
+    if (!ticket.ticketType || !ticket.ticketDescription || !ticket.employeeId) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    // Get the customer details from localStorage
-    const customerDetails = JSON.parse(localStorage.getItem("customerDetails"));
-
-    if (!customerDetails) {
-      alert("Customer details not found. Please log in again.");
-      return;
-    }
-
-    // Construct the ticket data object including customer details
     const newTicket = {
-      ...ticket,
-      customer: customerDetails, // Include the entire customer object
+      customerId,
+      employeeId: ticket.employeeId,
+      ticketType: ticket.ticketType,
+      ticketDescription: ticket.ticketDescription,
       ticketRaiseDate: new Date().toISOString().slice(0, 19),
       ticketStatus: "PENDING",
     };
@@ -124,9 +117,7 @@ const Chatbot = () => {
       )}
       {showChat && (
         <div className="chatbot-container">
-          <div className="chatbot-header">
-            Chatbot <button className="close-chat" onClick={() => setShowChat(false)}>✖</button>
-          </div>
+          <div className="chatbot-header">Chatbot <button className="close-chat" onClick={() => setShowChat(false)}>✖</button></div>
           <div className="chatbot-messages">
             {messages.map((msg, index) => (
               <div key={index} className={`message ${msg.sender}`}>
@@ -147,38 +138,19 @@ const Chatbot = () => {
           {showTicketForm && (
             <div className="chatbot-ticket-form">
               <h4>Raise a Ticket</h4>
-              <select
-                name="ticketType"
-                value={ticket.ticketType}
-                onChange={handleTicketChange}
-                required
-              >
-                <option value="">Select</option>
-                <option value="BILLING_AND_ACCOUNTS">BILLING AND ACCOUNTS</option>
-                <option value="PRODUCT_AND_PLANS">PRODUCT AND PLANS</option>
-                <option value="INSTALLATION_AND_SERVICE">INSTALLATION AND SERVICE</option>
-                <option value="RELOCATION_REQUEST">RELOCATION REQUEST</option>
-                <option value="TECHNICAL_SUPPORT">TECHNICAL SUPPORT</option>
-                <option value="OUTAGE">OUTAGE</option>
-              </select>
-              <br />
-              <textarea
-                name="ticketDescription"
-                placeholder="Describe your issue"
-                value={ticket.ticketDescription}
-                onChange={handleTicketChange}
-                required
-              />
+              <input type="text" name="employeeId" placeholder="Employee ID" value={ticket.employeeId} onChange={handleTicketChange} required /><br/>
+              <select name="ticketType" value={ticket.ticketType} onChange={handleTicketChange} required>
+                <option value="">Select Issue Type</option>
+                <option value="Service">Service</option>
+                <option value="Technical">Technical</option>
+                <option value="Billing">Billing</option>
+              </select><br/>
+              <textarea name="ticketDescription" placeholder="Describe your issue" value={ticket.ticketDescription} onChange={handleTicketChange} required />
               <button onClick={submitTicket}>Submit</button>
             </div>
           )}
           <div className="chatbot-input">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type 'Hi' to start conversation..."
-            />
+            <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type 'Hi' to start conversation..." />
             <button onClick={() => sendMessage(input)}>Send</button>
           </div>
         </div>

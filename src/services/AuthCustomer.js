@@ -6,6 +6,7 @@ class AuthCustomer {
     async customerlogin(customerUsername, customerPassword) {
         try {
             const response = await axios.get(API_URL + `customerLogin/${customerUsername}/${customerPassword}`);
+            console.log(response.data);
             return response.data; // Return the customer object directly
         } catch (error) {
             console.error("Login error", error);

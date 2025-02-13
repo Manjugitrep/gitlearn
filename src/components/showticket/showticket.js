@@ -3,10 +3,6 @@ import axios from 'axios';
 import AdminMenu from '../adminmenu/adminmenu';
 
 const ShowTicket = () => {
-    const [customer, setCustomer] = useState({
-        customerId:0
-    });
-
     const [tickets, setTickets] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const recordsPerPage = 7;
@@ -112,7 +108,7 @@ const ShowTicket = () => {
                     {currentTickets.map((ticket, index) => (
                         <tr key={index}>
                             <td>{ticket.ticketId}</td>
-                            <td>{ticket.customer.customerId}</td>
+                            <td>{ticket.customerId}</td>
                             <td>{ticket.employeeId}</td>
                             <td>{ticket.ticketType}</td>
                             <td>{ticket.ticketDescription}</td>

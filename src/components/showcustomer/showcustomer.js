@@ -25,7 +25,7 @@ const ShowCustomer = () => {
         (searchId === "" || customer.customerId.toString().includes(searchId)) &&
         (searchName === "" || customer.customerFirstname.toLowerCase().includes(searchName.toLowerCase()) || 
                              customer.customerLastname.toLowerCase().includes(searchName.toLowerCase())) &&
-        (searchPhone === "" || customer.customerPhNo.toString().includes(searchPhone))
+        (searchPhone === "" || customer.customerPhno.toString().includes(searchPhone))
     );
 
     // Pagination Logic
@@ -108,7 +108,7 @@ const ShowCustomer = () => {
                                 <td>{customer.customerGender}</td>
                                 <td>{customer.customerUsername}</td>
                                 <td>{customer.customerEmail}</td>
-                                <td>{customer.customerPhNo}</td>
+                                <td>{customer.customerPhno}</td>
                             </tr>
                         ))
                     ) : (

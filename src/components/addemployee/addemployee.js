@@ -80,9 +80,9 @@ const AddEmployee = () => {
             <td>
               <select name="employeeGender" value={employee.employeeGender} onChange={handleInputChange}>
                 <option value="">Select</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="OTHER">OTHER</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
             </td>
           </tr>
@@ -91,13 +91,10 @@ const AddEmployee = () => {
             <td>
               <select name="employeeDept" value={employee.employeeDept} onChange={handleInputChange}>
                 <option value="">Select</option>
-                <option value="BILLING_AND_ACCOUNTS">BILLING AND ACCOUNTS</option>
-                <option value="PRODUCT_AND_PLANS">PRODUCT AND PLANS</option>
-                <option value="INSTALLATION_AND_SERVICE">INSTALLATION AND SERVICE</option>
-                <option value="RELOCATION_REQUEST">RELOCATION REQUEST</option>
-                <option value="TECHNICAL_SUPPORT">TECHNICAL SUPPORT</option>
-                <option value="OUTAGE">OUTAGE</option>
+                <option value="IT">IT</option>
                 <option value="HR">HR</option>
+                <option value="Business">Business</option>
+                <option value="Service">Service</option>
               </select>
             </td>
           </tr>
@@ -108,7 +105,7 @@ const AddEmployee = () => {
                 <option value="">Select</option>
                 <option value="Admin">Admin</option>
                 <option value="Manager">Manager</option>
-                <option value="Employee">Employee</option>
+                <option value="Representative">Employee</option>
               </select>
             </td>
           </tr>

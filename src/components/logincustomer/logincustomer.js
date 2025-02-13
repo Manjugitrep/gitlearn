@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthCustomer from "../../services/AuthCustomer";
+import "./LoginCustomer.css"; // Import CSS for styling
 
 const LoginCustomer = () => {
     const [data, setData] = useState({
@@ -14,9 +15,9 @@ const LoginCustomer = () => {
         general: ""
     });
 
-    const [loginFailed, setLoginFailed] = useState(false);
-
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (event) => {
         setData({
@@ -59,13 +60,8 @@ const LoginCustomer = () => {
             if (customerDetails && customerDetails.customerId) {
                 localStorage.setItem("customerId", customerDetails.customerId);
                 localStorage.setItem("customerUsername", customerDetails.customerUsername);
-                localStorage.setItem("customerDetails", JSON.stringify(customerDetails));
-                console.log("Customer details logged in: ", customerDetails);
-                
-                setLoginFailed(false);
                 navigate("/customerMenu");
             } else {
-                setLoginFailed(true);
                 setErrors({ general: "Invalid credentials. Please try again." });
             }
         } catch (error) {
@@ -77,85 +73,48 @@ const LoginCustomer = () => {
     };
 
     return (
-        <div className="form-container">
-            <h2 className="form-title">Welcome</h2>
-            <form>
-                <table className="form-table">
-                    <tbody>
-                        {errors.general && (
-                            <tr>
-                                <td colSpan="2">
-                                    <p className="error-message" style={{ color: "red", textAlign: "center" }}>
-                                        {errors.general}
-                                    </p>
-                                </td>
-                            </tr>
-                        )}
-                        <tr>
-                            <td><label className="form-label">Username:</label></td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="customerUsername"
-                                    className="form-input"
-                                    value={data.customerUsername}
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        {errors.customerUsername && (
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <p className="error-message" style={{ color: "red" }}>
-                                        {errors.customerUsername}
-                                    </p>
-                                </td>
-                            </tr>
-                        )}
+        <div className="login-container">
+            <div className="login-card">
+                <h2 className="form-title">Customer Login</h2>
+                <form>
+                    {errors.general && (
+                        <p className="error-message">{errors.general}</p>
+                    )}
+                    <div className="input-group">
+                        <label className="form-label">Username</label>
+                        <input
+                            type="text"
+                            name="customerUsername"
+                            className="form-input"
+                            value={data.customerUsername}
+                            onChange={handleChange}
+                        />
+                        {errors.customerUsername && <p className="error-message">{errors.customerUsername}</p>}
+                    </div>
 
-                        <tr>
-                            <td><label className="form-label">Password:</label></td>
-                            <td>
-                                <input
-                                    type="password"
-                                    name="customerPassword"
-                                    className="form-input"
-                                    value={data.customerPassword}
-                                    onChange={handleChange}
-                                />
-                            </td>
-                        </tr>
-                        {errors.customerPassword && (
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <p className="error-message" style={{ color: "red" }}>
-                                        {errors.customerPassword}
-                                    </p>
-                                </td>
-                            </tr>
-                        )}
+                    <div className="input-group">
+                        <label className="form-label">Password</label>
+                        <input
+                            type="password"
+                            name="customerPassword"
+                            className="form-input"
+                            value={data.customerPassword}
+                            onChange={handleChange}
+                        />
+                        {errors.customerPassword && <p className="error-message">{errors.customerPassword}</p>}
+                    </div>
 
-                        <tr>
-                            <td colSpan="2" align="center">
-                                <input
-                                    type="button"
-                                    className="submit-button"
-                                    value="Login"
-                                    onClick={validate}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            {/* Conditionally render the Forgot Password link only when login fails */}
-          {loginFailed && (
-                <div>
-                    <Link to="../forgotpasswordcustomer">Forgot Password?</Link>
-                </div>
-            )}
+                    <div className="forgot-password-container">
+                        <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
+                            Forgot Password?
+                        </p>
+                    </div>
+
+                    <button type="button" className="login-button" onClick={validate}>
+                        Sign In
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
